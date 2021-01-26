@@ -8,6 +8,12 @@ node("jnlp-01") {
 
     stage('CHECKOUT') {
       println("CHECKOUT");
+      container('jnlp') {
+        sh """
+        git clone 'https://github.com/thevictorgreen/jnlp-k8s.git'
+        echo $POD_CONTAINER
+        """
+      }
     }
 
     stage("CODE-QUALITY") {
