@@ -1,0 +1,50 @@
+// BUILD PIPELINE WITH DOCKER
+node("jnlp-01") {
+
+  // THIS COMMIT_ID WILL BE USED TO TAG OUR DOCKER BUILDS
+  //def commit_id
+
+  try {
+
+    stage('CHECKOUT') {
+      println("CHECKOUT");
+    }
+
+    stage("CODE-QUALITY") {
+      println("CODE-QUALITY");
+    }
+
+    stage("TEST") {
+      println("TEST");
+    }
+
+    stage("BUILD") {
+      println("BUILD");
+    }
+
+    stage("DEPLOY") {
+      println("DEPLOY");
+    }
+
+  } catch(e) {
+    currentBuild.result = "FAILED";
+    throw e;
+  }
+  finally {
+    // ALWAYS SEND NOTIFICATIONS
+    notifyTeam(currentBuild.result);
+    // ALWAYS CLEAN UP
+    cleanUp();
+  }
+}
+
+
+def notifyTeam(String buildStatus = 'STARTED') {
+  println("notifyTeam");
+}
+
+
+def cleanUp() {
+  cleanWs();
+  println("WORKSPACE CLEANED UP");
+}
